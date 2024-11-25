@@ -52,7 +52,7 @@ updateProductForm.addEventListener('submit', async event => {
     const name = updateProductName.value;
     const price = updateProductPrice.value;
     await updateProduct(id, name, price);
-    updateProductForm.style.display = 'none';
+    updateProductForm.style.display = ' ';
     await fetchProducts();
 });
 
