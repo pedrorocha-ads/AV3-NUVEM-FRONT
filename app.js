@@ -17,8 +17,8 @@ async function fetchProducts() {
     products.forEach(product => {
         const li = document.createElement('li');
         li.classList.add('product-item');
-        li.innerHTML = `${product.name} - $${product.price}`;
-
+        li.innerHTML = `${product.name} - $${product.price} 
+                        <button class="edit-button" onclick="showUpdateForm(${product.id}, '${product.name}', ${product.price})">Edit</button>`;
         productList.appendChild(li);
     });
 }
@@ -45,6 +45,14 @@ async function addProduct(name, price) {
     return response.json();
 }
 
+// Mostrar o formulário de atualização com os dados do produto
+function showUpdateForm(id, name, price) {
+    updateProductId.value = id;
+    updateProductName.value = name;
+    updateProductPrice.value = price;
+    updateProductForm.style.display = 'block';
+}
+
 // Listener de evento para o formulário de atualização de produto
 updateProductForm.addEventListener('submit', async event => {
     event.preventDefault();
@@ -52,7 +60,7 @@ updateProductForm.addEventListener('submit', async event => {
     const name = updateProductName.value;
     const price = updateProductPrice.value;
     await updateProduct(id, name, price);
-    updateProductForm.style.display = ' ';
+    updateProductForm.style.display = 'none'; // Esconde o formulário após a atualização
     await fetchProducts();
 });
 
@@ -67,11 +75,6 @@ async function updateProduct(id, name, price) {
     });
     return response.json();
 }
-
-// Mostrar formulário de atualização
-document.querySelector('#update-product-button').addEventListener('click', () => {
-    updateProductForm.style.display = 'block';
-});
 
 // Buscar todos os produtos ao carregar a página
 fetchProducts();
